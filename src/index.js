@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import Policies from './container/Policies';
 import reportWebVitals from './reportWebVitals';
+import PolicyData from './PolicyData';
+
+//console.log(PolicyData);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Policies policyData={PolicyData} />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
