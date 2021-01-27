@@ -1,0 +1,31 @@
+html,
+body,
+#root,
+.Policies {
+  height: 100%;
+  margin: 0px;
+  background-color: white;
+}
+
+/* .Policies {
+  height: 100%;
+  /* background-color: rgb(232, 238, 250); */
+  /* background-color: white;
+} */ 
+
+.Main-header {
+  background-color: white;
+  min-height: 2%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: left; */
+  justify-content: left;
+  /* font-size: 10;
+  color:black; */
+}
+
+.MainTabs-Container {
+  height: 100%;
+  background-color: white;
+}
+
