@@ -13,7 +13,7 @@ const PolicyData = [
         "show": "1",
         "time_interval": 2592000,
         "action": null,
-        "pending": true
+        "pending": true,
     },
     {
         "active": "1",
@@ -25,11 +25,11 @@ const PolicyData = [
         "modify_time": 1608103287,
         "modify_type": "Edit",
         "name": "Data Exfiltration",
-        "severity": "medium",
+        "severity": "high",
         "show": "1",
         "time_interval": 2592000,
         "action": null,
-        "pending": true
+        "pending": true,
     },
     {
         "active": "1",
@@ -39,11 +39,11 @@ const PolicyData = [
         "id": "-9",
         "modify_type": "Edit",
         "name": "Malicious Policy",
-        "severity": "medium",
+        "severity": "low",
         "show": "1",
         "time_interval": 2592000,
         "action": null,
-        "pending": true
+        "pending": true,
     }
 ];
 

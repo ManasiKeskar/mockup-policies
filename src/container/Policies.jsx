@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './Policies.css';
 import PolicyTabs from '../components/PolicyTabs';
 import { Route, Switch, Redirect } from 'react-router-dom';
+// import SlidingPanel from 'react-sliding-side-panel';
+// import 'react-sliding-side-panel/lib/index.css';
 
 class Policies extends Component {
 
@@ -21,7 +23,7 @@ class Policies extends Component {
 
   render() {
 
-    console.log("In state", this.state.policyData);
+    // console.log("In state", this.state.policyData);
 
     const policyData = this.props.policyData;
 
@@ -40,10 +42,12 @@ class Policies extends Component {
               including Rule-Based, Behavior-Based detection engines
             </p>
           </div>
-          <Switch>
-            <Redirect exact from='/' to='/Policies/BehaviorBasedTab' />
-            <Route exact path='/Policies/:page?' render={props => <PolicyTabs {...props} policyData={policyData} />} />
-          </Switch>
+          <div className="MainTabs-Container">
+            <Switch>
+              <Redirect exact from='/' to='/Policies/BehaviorBasedTab' />
+              <Route exact path='/Policies/:page?' render={props => <PolicyTabs {...props} policyData={policyData} />} />
+            </Switch>
+          </div>
         </div>
       );
     }
