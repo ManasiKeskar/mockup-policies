@@ -1,0 +1,11 @@
+.Form-root {
+    height: 100%;
+    width: 100%;
+}
+
+.Form-header {
+    background-color: lightgray;
+    width: 100%;
+    font-family: sans-serif;
+    font-size: small;
+}

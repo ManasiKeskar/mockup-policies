@@ -1,33 +1,41 @@
-import React, { useState} from 'react';
+import React, { Component, useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider, Typography} from '@material-ui/core';
+import { CardActions, Divider, Typography} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+// import Avatar from '@material-ui/core/Avatar';
 import { red, yellow } from '@material-ui/core/colors';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 import WarningIcon from '@material-ui/icons/Warning';
 import Switch from '@material-ui/core/Switch';
-import { WrapText } from '@material-ui/icons';
-import BehaviorBasedCardData from './BehaviorBasedCardData';
+// import BehaviorBasedCardData from './BehaviorBasedCardData';
+// import SlidingPanel from 'react-sliding-side-panel';
+import 'react-sliding-side-panel/lib/index.css';
+import Button from '@material-ui/core/Button';
+import { useDispatch } from 'react-redux';
+import { openPanel } from './../actions';
+import Grid from '@material-ui/core/Grid';
+import SlidingPanelComponent from './SlidingPanelComponent';
+// import SlidingPane from "react-sliding-pane";
+// import "react-sliding-pane/dist/react-sliding-pane.css";
+import SeverityLabel from './SeverityLabel';
+
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-	  maxWidth: 345,
+	  minWidth: 200,
+	  display: 'flex',
+	  alignItems: 'center',
+	  
 	},
 	header: {
-		disableTypography: false,
-		// variant: "h6",
+		Typography: 'noWrap',
+		variant: "body2",
 		height: theme.typography.h6.fontSize,
 		width: theme.typography.h6.fontSize
-	},
-	avatar: {
-	  backgroundColor: red[500],
-	  height: theme.spacing(3),
-	  width: theme.spacing(3),
 	},
 	WarningLevel: {	
 		Color: yellow[500],
@@ -43,96 +51,106 @@ const useStyles = makeStyles((theme) => ({
 	},
   }));
 
-const BehaviorBasedCard = ({ policy }) => {
-	console.log("Policy", policy);
-	const name = policy.name;
-	const description = policy.description;
-	const severity = policy.severity;
+const BehaviorBasedCard = ({policy, showCardDetails}) => {
 
-	const classes = useStyles();
-		
-	const [state, setState] = useState({
-		checkedA: true,
-		checkedB: true,
-	});
+        const name = policy.name;
+	    const description = policy.description;
+	    const severity = policy.severity;
 
-	const [showCardDetails, setShowCardDetails] = useState('true');
+	    const classes = useStyles();
 
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked});
-	};
-
-	const onCardClicked = () => {
-		
-		console.log("In onCardClicked", showCardDetails, policy);
-		setShowCardDetails({ showCardDetails: 'true'});
-        
-        console.log("In OnCardClicked after showCardData", showCardDetails);
-		// <BehaviorBasedCardData  policy={policy} showCardDetails={showCardDetails}/>;
-		return(
-			<div>
-				<BehaviorBasedCardData  policy={policy} showCardDetails={showCardDetails}/>;
-			</div>
-		);
-		
-    };
-
-	const SeverityLabel = () => {
-		if(severity === "High"){
-			SeverityLabel = "H"
-		} else if(severity === "Medium"){
-			SeverityLabel = "M"
-		} else {
-			SeverityLabel = "L"
-		}
-	};
+	    // const dispatch = useDispatch();
 	
-	return (
-		<Card className={classes.root}>
-			<CardActionArea onClick={onCardClicked}>
-				<CardHeader className={classes.header}
-					avatar={
-						 <PersonOutline />
-					}
-					action={
-						// <IconButton>
-						<div className={classes.headerIcons}>
-							<Avatar aria-label="severity" className={classes.avatar}>
-								M
-							</Avatar>
-							<WarningIcon />
-							<Switch
-								size='small'
-								checked={state.checkedB}
-								onChange={handleChange}
-								color="primary"
-								name="checkedB"
-								inputProps={{ 'aria-label': 'primary checkbox' }}
-							/>
-						</div>
-						// {/* </IconButton> */}
-					}
-          			title={name}
-      			/>
-				<CardContent>
-					<div>
-						<Typography variant="inherit" color="textSecondary" component="p">
-							{description}
-						</Typography>
-					</div>
-					<Divider></Divider>
-					<div>
-						<Typography variant="caption" color="textSecondary" component = "p">
-							App
-						</Typography>
-						<Typography variant="caption" color="textSecondary" component = "p">
-							Some
-						</Typography>
-					</div>
-				</CardContent>
-			</CardActionArea>
-		</Card>
-	);
+	    //This is used for handling the header checked button
+	    const [state, setState] = useState({
+		    checkedA: true,
+		    checkedB: true,
+	    });
+
+	    const handleChange = (event) => {
+		    setState({ ...state, [event.target.name]: event.target.checked});
+        };
+
+        const [policyName, setPolicyName] = useState(policy.name);
+
+           
+        // const [policyDetails, setPolicyDetails] = useState(policy);
+
+	    // const showPolicyDetails = (event) => {
+				
+		//     // setPolicyDetails(policy);
+        //     // console.log("in showPolicyDetails : policyDetails = ", policyDetails);
+        //     event.preventDefault();
+        //     console.log("in policy details", event.target.value);
+        //     // dispatch(openPanel());
+        //     // return (
+        //     //     <SlidingPanelComponent policy={policy} />
+        //     // );
+		// }
+
+	    return (
+	    <div>
+		    <Card className={classes.root}>
+                <Grid item xs={12} sm container>
+			        <Grid container wrap="nowrap" spacing={2}>
+                        <Grid item>
+                            <PersonOutline />
+                        </Grid>
+                        <Grid item>
+                        <CardHeader className={classes.header}
+                            action={
+                                // <IconButton>
+                                <div className={classes.headerIcons}>
+                                    <SeverityLabel severity={severity} />
+                                    <WarningIcon />
+                                    <Switch
+                                        size='small'
+                                        checked={state.checkedB}
+                                        onChange={handleChange}
+                                        color="primary"
+                                        name="checkedB"
+                                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                                    />
+                                </div>
+                            }
+                            title={name}
+                        />
+                        
+                            <CardContent>
+                                <div>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {description}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="caption" color="textSecondary" component = "p">
+                                        App
+                                    </Typography>
+                                    <Typography variant="caption" color="textSecondary" component = "p">
+                                        Some
+                                    </Typography>
+                                </div>
+                            </CardContent>
+                            <Divider></Divider>
+                            <CardActions>
+                                <button size="small" color="primary" value={name} onClick={showCardDetails}>
+                                    Edit
+                                </button>
+                            </CardActions>
+                        </Grid>
+			        </Grid>
+                </Grid>
+		    </Card>
+
+		    {/* <SlidingPanelComponent policy={policy} /> */}
+
+            {/* {policyData.filter(policy => policy.name==={policyName}).map(policy => (
+                    <SlidingPanelComponent {...policy} /> ))} */}
+                   
+            
+	    </div>
+		
+        );
 }
 
 export default BehaviorBasedCard;
